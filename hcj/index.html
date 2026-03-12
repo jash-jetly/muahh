@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Night Vigil - A browser-based superhero rooftop traversal and combat game">
+    <title>NIGHT VIGIL</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen active">
+        <div class="start-bg"></div>
+        <div class="start-content">
+            <div class="title-glow"></div>
+            <h1 class="game-title">NIGHT<br><span class="title-accent">VIGIL</span></h1>
+            <p class="game-subtitle">THE CITY SLEEPS. YOU DON'T.</p>
+            <div class="story-box">
+                <p class="story-text">💀 THE JOKER has planted <span class="highlight-green">explosive devices</span>
+                    across Gotham's rooftops.</p>
+                <p class="story-text">His thugs guard each bomb. <span class="highlight-red">Time is running out.</span>
+                </p>
+                <p class="story-text">Use your <span class="highlight-cyan">detective vision</span> to locate threats
+                    and disarm every bomb before the city falls.</p>
+            </div>
+            <div class="start-divider"></div>
+            <button id="start-btn" class="glow-btn">
+                <span class="btn-text">BEGIN PATROL</span>
+                <span class="btn-glow"></span>
+            </button>
+            <div class="controls-hint">
+                <div class="control-row"><span class="key">WASD</span> Move</div>
+                <div class="control-row"><span class="key">MOUSE</span> Look</div>
+                <div class="control-row"><span class="key">SPACE</span> Jump / Glide</div>
+                <div class="control-row"><span class="key">E</span> Grapple</div>
+                <div class="control-row"><span class="key">F</span> Takedown / Disarm</div>
+                <div class="control-row"><span class="key">LMB</span> Punch</div>
+                <div class="control-row"><span class="key">RMB</span> Heavy Attack</div>
+                <div class="control-row"><span class="key">SHIFT</span> Detective Vision</div>
+                <div class="control-row"><span class="key">CTRL</span> Crouch</div>
+                <div class="control-row"><span class="key">TAB</span> Leaderboard</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameover-screen" class="screen">
+        <div class="start-bg"></div>
+        <div class="start-content">
+            <h1 class="game-title gameover-title" id="gameover-title">FALLEN</h1>
+            <p class="game-subtitle" id="gameover-subtitle">THE NIGHT CLAIMED YOU</p>
+            <div class="final-stats">
+                <div class="stat-row"><span class="stat-label">FINAL SCORE</span><span id="final-score"
+                        class="stat-value">0</span></div>
+                <div class="stat-row"><span class="stat-label">ENEMIES DEFEATED</span><span id="final-enemies"
+                        class="stat-value">0</span></div>
+                <div class="stat-row"><span class="stat-label">BOMBS DISARMED</span><span id="final-bombs"
+                        class="stat-value">0</span></div>
+                <div class="stat-row"><span class="stat-label">SECTORS CLEARED</span><span id="final-sectors"
+                        class="stat-value">0</span></div>
+                <div class="stat-row"><span class="stat-label">TIME</span><span id="final-time"
+                        class="stat-value">00:00</span></div>
+            </div>
+            <button id="restart-btn" class="glow-btn">
+                <span class="btn-text">RISE AGAIN</span>
+                <span class="btn-glow"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Leaderboard Overlay -->
+    <div id="leaderboard-overlay" class="screen">
+        <div class="start-bg"></div>
+        <div class="start-content">
+            <h2 class="leaderboard-title">⚡ LEADERBOARD</h2>
+            <div id="leaderboard-list"></div>
+            <p class="leaderboard-hint">Press TAB to close</p>
+        </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+        <div id="crosshair">
+            <div class="crosshair-dot"></div>
+            <div class="crosshair-line top"></div>
+            <div class="crosshair-line bottom"></div>
+            <div class="crosshair-line left"></div>
+            <div class="crosshair-line right"></div>
+        </div>
+
+        <div id="health-container">
+            <div class="hud-label">VITALITY</div>
+            <div id="health-bar-bg">
+                <div id="health-bar"></div>
+                <div id="health-bar-glow"></div>
+            </div>
+            <span id="health-text">100</span>
+        </div>
+
+        <div id="grapple-container">
+            <div class="hud-label">GRAPPLE</div>
+            <div id="grapple-bar-bg">
+                <div id="grapple-bar"></div>
+            </div>
+            <span id="grapple-status">READY</span>
+        </div>
+
+        <div id="detective-container">
+            <div class="hud-label">DETECTIVE VISION</div>
+            <div id="detective-bar-bg">
+                <div id="detective-bar"></div>
+            </div>
+            <span id="detective-status">READY [SHIFT]</span>
+        </div>
+
+        <div id="combo-container" class="hidden">
+            <div id="combo-count">0</div>
+            <div id="combo-label">COMBO</div>
+        </div>
+
+        <div id="score-container">
+            <div class="hud-label">SCORE</div>
+            <div id="score-value">0</div>
+        </div>
+
+        <div id="enemy-count-container">
+            <div class="hud-label">HOSTILES</div>
+            <div id="enemy-count">0</div>
+        </div>
+
+        <div id="sector-container">
+            <div class="hud-label">SECTOR</div>
+            <div id="sector-value">1</div>
+        </div>
+
+        <div id="bomb-container">
+            <div class="hud-label">💣 BOMBS REMAINING</div>
+            <div id="bomb-count">0</div>
+        </div>
+
+        <div id="timer-container">
+            <div class="hud-label">⏱ TIME REMAINING</div>
+            <div id="timer-value">03:00</div>
+        </div>
+
+        <div id="mission-timer-container">
+            <div class="hud-label">MISSION TIME</div>
+            <div id="mission-timer-value">00:00</div>
+        </div>
+
+        <div id="alert-text" class="hidden"></div>
+        <div id="interaction-prompt" class="hidden"></div>
+
+        <!-- Minimap -->
+        <canvas id="minimap" width="200" height="200"></canvas>
+    </div>
+
+    <!-- Detective mode overlay -->
+    <div id="detective-overlay" class="hidden"></div>
+
+    <!-- Canvas container -->
+    <div id="game-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/cityGenerator.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/grapple.js"></script>
+    <script src="js/parkour.js"></script>
+    <script src="js/glide.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/combat.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/gameLoop.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
