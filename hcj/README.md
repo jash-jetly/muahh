@@ -61,24 +61,6 @@ Every single visual element — buildings, enemies, props, lighting — is rende
 
 ---
 
-## 🚀 Getting Started
-
-No build tools. No dependencies. No server required.
-
-```bash
-# Clone the repository
-git clone https://github.com/jash-jetly/muahh.git
-cd muahh
-
-# Open in your browser
-open index.html
-```
-
-Or simply double-click `index.html` — that's it.
-
-> **Note:** Three.js is loaded via CDN (`r128`), so you'll need an internet connection on first load.
-
----
 
 ## 📁 Project Structure
 

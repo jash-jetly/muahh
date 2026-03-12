@@ -18,6 +18,12 @@ const GameLoop = {
     // Leaderboard toggle
     leaderboardOpen: false,
 
+    // Audio
+    bgm: null,
+    combatBgm: null,
+    targetBgmVolume: 0.4,
+    targetCombatVolume: 0,
+
     init() {
         this.clock = new THREE.Clock();
         this.state = 'menu';
@@ -26,6 +32,11 @@ const GameLoop = {
         this.sectorsCleared = 0;
         this.missionTime = 0;
         this.leaderboardOpen = false;
+
+        this.bgm = document.getElementById('bgm');
+        this.combatBgm = document.getElementById('combat-bgm');
+        if (this.bgm) this.bgm.volume = 0;
+        if (this.combatBgm) this.combatBgm.volume = 0;
 
         // TAB key for leaderboard
         document.addEventListener('keydown', (e) => {
@@ -66,6 +77,10 @@ const GameLoop = {
 
         this.loadSector(0);
         Player.lockPointer();
+
+        // Start music
+        if (this.bgm) { this.bgm.currentTime = 0; this.bgm.play(); this.bgm.volume = 0.4; }
+        if (this.combatBgm) { this.combatBgm.currentTime = 0; this.combatBgm.play(); this.combatBgm.volume = 0; }
     },
 
     loadSector(sectorIndex) {
@@ -116,6 +131,16 @@ const GameLoop = {
         EnemyManager.update(dt);
         Combat.update(dt);
         CityGenerator.updateBombs(dt);
+
+        // Audio crossfade
+        let inCombat = false;
+        if (typeof EnemyManager !== 'undefined') {
+            inCombat = EnemyManager.enemies.some(e => ['alert', 'combat', 'search'].includes(e.state));
+        }
+        this.targetBgmVolume = inCombat ? 0.0 : 0.4;
+        this.targetCombatVolume = inCombat ? 0.6 : 0.0;
+        if (this.bgm) this.bgm.volume = THREE.MathUtils.lerp(this.bgm.volume, this.targetBgmVolume, 2 * dt);
+        if (this.combatBgm) this.combatBgm.volume = THREE.MathUtils.lerp(this.combatBgm.volume, this.targetCombatVolume, 2 * dt);
 
         // Grapple input
         if (Player.keys['KeyE'] && Player.isPointerLocked) {
@@ -194,6 +219,9 @@ const GameLoop = {
         UI.showGameOver(Combat.score, Combat.totalDefeated, Combat.bombsDisarmed, this.sectorsCleared, this.missionTime, isVictory);
         Leaderboard.addScore(Combat.score, this.missionTime, this.sectorsCleared, Combat.bombsDisarmed);
         document.exitPointerLock();
+
+        if (this.bgm) this.bgm.pause();
+        if (this.combatBgm) this.combatBgm.pause();
     },
 
     restart() {
