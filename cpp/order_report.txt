@@ -1,0 +1,14 @@
+========================================
+        ORDER REPORT
+========================================
+
+Order ID    : 1001
+User ID     : 1
+Product     : Wireless Mouse
+Quantity    : 3
+Total       : Rs.1500
+Payment     : paid
+Status      : ACTIVE
+----------------------------------------
+
+Total Revenue (PAID orders): Rs.0

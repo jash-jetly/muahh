@@ -1,5 +1,5 @@
 1|Laptop|Electronics|45000|10
-2|Wireless Mouse|Accessories|500|50
+2|Wireless Mouse|Accessories|500|47
 3|USB-C Hub|Accessories|1200|30
 4|Keyboard|Accessories|2000|20
 5|Monitor 24inch|Electronics|12000|8
